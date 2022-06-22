@@ -1,36 +1,37 @@
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 
 export const CopyApp = () => {
-	const [text, settext] = useState("Hola");
-	const imputRef = useRef();
-	const [isCopied, setIsCopied] = useState(false);
+	const [text, setText] = useState("");
+	const inputRef = useRef();
+	const [isCopy, setIsCopy] = useState(false);
 
 	const handleCopy = () => {
-		const imput = imputRef.current;
+		const input = inputRef.current;
 
-		// selecionar el texto
-		imput.select();
-		console.log(imput);
+		console.log(input);
+		input.select();
 
-		// una vez selecionado procedemos a copiar
 		document.execCommand("copy");
 
-		setIsCopied(true);
+		setIsCopy(true);
+		setText("");
 		setTimeout(() => {
-			setIsCopied(false);
+			setIsCopy(false);
 		}, 1000);
 	};
+
 	return (
 		<>
 			<h4>CopyApp</h4>
+
 			<input
+				ref={inputRef}
 				text="text"
-				ref={imputRef}
 				value={text}
-				onChange={(e) => settext(e.target.value)}
+				onChange={(e) => setText(e.target.value)}
 			/>
 			<button onClick={handleCopy}>Copy</button>
-			{isCopied && <p>Copied</p>}
+			{isCopy && <p>Copied</p>}
 		</>
 	);
 };

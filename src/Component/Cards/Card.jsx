@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { GetData } from "../Helpers/GetApi";
+import { GetData } from "../../Helpers/GetApi";
 
 export const Card = () => {
 	const [post, setPost] = useState({ title: "pos1" });
 	const [loading, setLoading] = useState(true);
-	const postRef = useRef(true);
+	const postRef = useRef();
 
 	const updatePost = async () => {
 		let newPost = await GetData();
@@ -18,13 +18,12 @@ export const Card = () => {
 
 	useEffect(() => {
 		updatePost();
-		// vamos a desmontar el component
+
 		return () => {
-			postRef.current = false;
+			postRef.current = true;
 		};
 	}, []);
 
-	if (loading) return <p>Cargado...</p>;
-
-	return <> {<p>{post.title} </p>}</>;
+	if (loading) return <p>Cargando....</p>;
+	return <>{<p>{post.title} </p>}</>;
 };
